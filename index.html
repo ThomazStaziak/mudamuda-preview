@@ -93,7 +93,7 @@
 		</div>
 	</nav>
 	
-	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(images/img_bg_2.jpg)">
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(images/hero.jpg)">
 		<div class="overlay"></div>
 		<div class="gtco-container">
 			<div class="row">
@@ -111,35 +111,31 @@
 									<div class="tab-content">
 										<div class="tab-content-inner active" data-content="signup">
 											<h3>Vou me mudar de:</h3>
-											<form action="#">
+											<form id="firstStepForm" action="#">
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="fullname">De</label>
-														<select type="text" id="fullname" class="form-control col-3">
-															<option>Cidade</option>
-															<option>SP</option>
-															<option>RJ</option>
+														<select type="text" id="fromCities" class="form-control col-3">
+															<option selected disabled>Selecione</option>
 														</select>
 													</div>
 												</div>
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="fullname">Para</label>
-														<select type="text" id="fullname" class="form-control col-3">
-															<option>UF</option>
-															<option>SP</option>
-															<option>RJ</option>
+														<select type="text" id="toStates" class="form-control col-3">
+															<option selected disabled>Selecione</option>
 														</select>
-														<select type="text" id="fullname" class="form-control col-3">
-															<option>Cidade</option>
-															<option>SP</option>
-															<option>RJ</option>
+														<select type="text" id="toCities" class="form-control col-3">
+															<option selected disabled>Selecione</option>
 														</select>
 													</div>
 												</div>
 												
 													<div class="col-md-12">
-														<input type="submit" class="btn btn-primary btn-block" value="Enviar">
+														<button id="firstStepButton" type="submit" class="btn btn-primary btn-block">
+															Enviar
+														</button>
 													</div>
 												</div>
 											</form>	
@@ -478,6 +474,8 @@
 	
 	<!-- Datepicker -->
 	<script src="js/bootstrap-datepicker.min.js"></script>
+	<script src="js/cidades.js"></script>
+	<script src="js/form.js"></script>
 	
 
 	<!-- Main -->

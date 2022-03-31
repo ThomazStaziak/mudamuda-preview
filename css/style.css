@@ -1888,4 +1888,12 @@ form label {
   }
 }
 
+.lista-input {
+  width: 25px;
+}
+
+[class*="coluna-itens-orcamento"] {
+  display: flex;
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -1,3 +1,29 @@
+<?php
+    if ($_POST) {
+        var_dump($_POST);
+
+        try {
+            require "conexao.php";
+            
+            $consulta = $conexao->prepare("INSERT INTO pedidos (created_at, pedido) VALUES (:created_at, :pedido)");
+            $inseriu = $consulta->execute([
+                ':created_at' => date('Y-m-d'),
+                ':pedido' => print_r($_POST, true)
+            ]);
+    
+            $conexao = null;
+    
+            if ($inseriu) {
+                header("Location: panel.php");
+            } 
+        } catch (PDOException $erro) {
+            echo $erro->getMessage();
+        }
+    } else {
+        var_dump($GLOBALS);
+    }
+?>
+
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
@@ -79,28 +105,25 @@
 		<div class="container">
 			<h1 class="text-center">Quer receber um orçamento? <br /> Preencha o formulário abaixo</h1>
 	
-			<form>
+			<form method="post" action="detalhes.php">
 				<div class="row">
 					<div class="col-xs-4 bg-info">
 						<h4>Quero me mudar de:</h4>
 						<div class="row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" placeholder="First name">
-							</div>
-							<div class="col-xs-6">
-								<input type="text" class="form-control" placeholder="Last name">
+								<input name="fromState" type="text" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-6">
 								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input type="radio" class="form-control" placeholder="Last name">
+									<input name="fromBuilding" type="radio" class="form-control" placeholder="Last name">
 									<label for="">Casa</label>
 									<input type="radio" class="form-control" placeholder="Last name">
-									<label for="">Apartamento</label>
+									<label name="fromBuilding" for="">Apartamento</label>
 								</div>
 								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input type="text" class="form-control" placeholder="Last name">
+									<input name="fromFloor" type="text" class="form-control" placeholder="Last name">
 									<label for="">Andar</label>
-									<input type="checkbox" class="form-control" placeholder="Last name">
+									<input name="fromElevator" type="checkbox" class="form-control" placeholder="Last name">
 									<label>Com elevador</label>
 								</div>
 							</div>
@@ -110,22 +133,22 @@
 						<h4>Destino</h4>
 						<div class="row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" placeholder="First name">
+								<input name="toState" type="text" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-6">
-								<input type="text" class="form-control" placeholder="Last name">
+								<input name="toCity" type="text" class="form-control" placeholder="Last name">
 							</div>
 							<div class="col-xs-6">
 								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input type="radio" class="form-control" placeholder="Last name">
+									<input name="toBuilding" type="radio" class="form-control" placeholder="Last name">
 									<label for="">Casa</label>
-									<input type="radio" class="form-control" placeholder="Last name">
+									<input name="toBuilding" type="radio" class="form-control" placeholder="Last name">
 									<label for="">Apartamento</label>
 								</div>
 								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input type="text" class="form-control" placeholder="Last name">
+									<input to="toFloor" type="text" class="form-control" placeholder="Last name">
 									<label for="">Andar</label>
-									<input type="checkbox" class="form-control" placeholder="Last name">
+									<input to="toElevator" type="checkbox" class="form-control" placeholder="Last name">
 									<label>Com elevador</label>
 								</div>
 							</div>
@@ -135,14 +158,14 @@
 						<h4>Data da mudança</h4>
 						<div class="row">
 							<div class="col-xs-12">
-								<input type="date" class="form-control" placeholder="First name">
+								<input name="changeDate" type="date" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-6">
 								<h4>Data flexível?</h4>
 								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input type="radio" class="form-control" placeholder="Last name">
+									<input name="flexDate" type="radio" class="form-control" placeholder="Last name">
 									<label for="">Sim</label>
-									<input type="radio" class="form-control" placeholder="Last name">
+									<input name="flexDate" type="radio" class="form-control" placeholder="Last name">
 									<label for="">Não</label>
 								</div>
 							</div>
@@ -153,18 +176,18 @@
 						<div class="row">
 							<div class="col-xs-4">
 								<label for="">Nome completo</label>
-								<input type="text" class="form-control" placeholder="First name">
+								<input name="completeName" type="text" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-4">
 								<label for="">E-mail</label>
-								<input type="email" class="form-control" placeholder="First name">
+								<input name="email" type="email" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-4">
 								<label for="">Telefone</label>
-								<input type="phone" class="form-control" placeholder="First name">
+								<input name="phone" type="phone" class="form-control" placeholder="First name">
 							</div>
 							<div class="col-xs-4">
-								<button class="btn btn-primary">Enviar</button>
+								<button type="submit" class="btn btn-primary">Enviar</button>
 							</div>
 						</div>
 					</div>

@@ -1,0 +1,13 @@
+.input-detalhes {
+
+}
+
+.border-orange {
+    border: solid 2px #c57917;
+    border-radius: 3px;
+}
+
+.form-box {
+    padding: 10px;
+    /* margin: 15px; */
+}

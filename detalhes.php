@@ -5,22 +5,21 @@
         try {
             require "conexao.php";
             
-            $consulta = $conexao->prepare("INSERT INTO pedidos (created_at, pedido) VALUES (:created_at, :pedido)");
+            $consulta = $conexao->prepare("INSERT INTO pedidos (pedido) VALUES (:pedido)");
             $inseriu = $consulta->execute([
-                ':created_at' => date('Y-m-d'),
                 ':pedido' => print_r($_POST, true)
             ]);
+
+			$lastId = $conexao->lastInsertId();
     
             $conexao = null;
     
             if ($inseriu) {
-                header("Location: panel.php");
+                header("Location: lista.php/".$lastId);
             } 
         } catch (PDOException $erro) {
             echo $erro->getMessage();
         }
-    } else {
-        var_dump($GLOBALS);
     }
 ?>
 
@@ -55,7 +54,7 @@
 	<!-- Themify Icons-->
 	<link rel="stylesheet" href="css/themify-icons.css">
 	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 
 	<!-- Magnific Popup -->
 	<link rel="stylesheet" href="css/magnific-popup.css">
@@ -69,6 +68,7 @@
 
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/detalhes.css">
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
@@ -86,10 +86,10 @@
 		<div class="gtco-container">
 			
 			<div class="row">
-				<div class="col-sm-4 col-xs-12">
-					<div id="gtco-logo"><a href="index.html"><img src="./images/logo-black.png" width="100" alt="logo"></a></div>
+				<div class="col-sm-4 col-12">
+					<div id="gtco-logo"><a href="index.html"><img src="./images/logo-preview.png" width="100" alt="logo"></a></div>
 				</div>
-				<div class="col-xs-8 text-right text-black menu-1">
+				<div class="col-8 text-right text-black menu-1">
 					<ul class="text-black">
 						<li><a style="color: #999" href="#">Quem somos</a></li>
 						<li><a style="color: #999" href="#">Menu</a></li>
@@ -103,90 +103,90 @@
 
 	<main style="padding-top: 8%;">
 		<div class="container">
-			<h1 class="text-center">Quer receber um orçamento? <br /> Preencha o formulário abaixo</h1>
+			<h1 class="h2 mb-4">Quer receber um orçamento? <br /> Preencha o formulário abaixo</h1>
 	
-			<form method="post" action="detalhes.php">
+			<form method="post" action="detalhes.php" class="border-orange bg-light form-box">
 				<div class="row">
-					<div class="col-xs-4 bg-info">
-						<h4>Quero me mudar de:</h4>
+					<div class="col-4">
+						<h5>Quero me mudar de:</h5>
 						<div class="row">
-							<div class="col-xs-6">
-								<input name="fromState" type="text" class="form-control" placeholder="First name">
+							<div class="col-12 mb-3">
+								<input name="fromState" type="text" class="form-control" placeholder="Estado">
 							</div>
-							<div class="col-xs-6">
-								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input name="fromBuilding" type="radio" class="form-control" placeholder="Last name">
-									<label for="">Casa</label>
-									<input type="radio" class="form-control" placeholder="Last name">
-									<label name="fromBuilding" for="">Apartamento</label>
+							<div class="col-12">
+								<div>
+									<input id="house" name="fromBuilding" type="radio" >
+									<label for="house" >Casa</label>
+									<input id="apt" type="radio" name="fromBuilding">
+									<label for="apt">Apartamento</label>
 								</div>
-								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input name="fromFloor" type="text" class="form-control" placeholder="Last name">
-									<label for="">Andar</label>
-									<input name="fromElevator" type="checkbox" class="form-control" placeholder="Last name">
-									<label>Com elevador</label>
+								<div>
+									<label>Andar</label>
+									<input name="fromFloor" type="text" class="form-control col-2">
+									<input id="elevator" name="fromElevator" type="checkbox">
+									<label for="elevator">Com elevador</label>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-4">
-						<h4>Destino</h4>
+					<div class="col-4">
+						<h5>Destino:</h5>
 						<div class="row">
-							<div class="col-xs-6">
-								<input name="toState" type="text" class="form-control" placeholder="First name">
+							<div class="col-6">
+								<input name="toState" type="text" class="form-control" placeholder="Estado">
 							</div>
-							<div class="col-xs-6">
-								<input name="toCity" type="text" class="form-control" placeholder="Last name">
+							<div class="col-6">
+								<input name="toCity" type="text" class="form-control" placeholder="Cidade">
 							</div>
-							<div class="col-xs-6">
-								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input name="toBuilding" type="radio" class="form-control" placeholder="Last name">
-									<label for="">Casa</label>
-									<input name="toBuilding" type="radio" class="form-control" placeholder="Last name">
-									<label for="">Apartamento</label>
+							<div class="col-12">
+								<div>
+									<input id="tohouse" name="toBuilding" type="radio" >
+									<label for="tohouse" >Casa</label>
+									<input id="toapt" type="radio" name="toBuilding">
+									<label for="toapt">Apartamento</label>
 								</div>
-								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input to="toFloor" type="text" class="form-control" placeholder="Last name">
-									<label for="">Andar</label>
-									<input to="toElevator" type="checkbox" class="form-control" placeholder="Last name">
-									<label>Com elevador</label>
+								<div>
+									<label>Andar</label>
+									<input name="toFloor" type="text" class="form-control col-2">
+									<input id="toelevator" name="toElevator" type="checkbox">
+									<label for="toelevator">Com elevador</label>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-4">
-						<h4>Data da mudança</h4>
+					<div class="col-4">
+						<h5>Data da mudança:</h5>
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-12 mb-3">
 								<input name="changeDate" type="date" class="form-control" placeholder="First name">
 							</div>
-							<div class="col-xs-6">
-								<h4>Data flexível?</h4>
-								<div style="display: flex; align-items: center; justify-content: flex-start;">
-									<input name="flexDate" type="radio" class="form-control" placeholder="Last name">
-									<label for="">Sim</label>
-									<input name="flexDate" type="radio" class="form-control" placeholder="Last name">
-									<label for="">Não</label>
+							<div class="col-6">
+								<h5>Data flexível?</h5>
+								<div>
+									<input id="yes" name="flexDate" type="radio">
+									<label for="yes">Sim</label>
+									<input id="no" name="flexDate" type="radio">
+									<label for="no">Não</label>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 mt-3">
-						<h4>Dados de contato</h4>
+					<div class="col-12 mt-3">
+						<h5>Dados de contato</h5>
 						<div class="row">
-							<div class="col-xs-4">
+							<div class="col-4">
 								<label for="">Nome completo</label>
-								<input name="completeName" type="text" class="form-control" placeholder="First name">
+								<input name="completeName" type="text" class="form-control">
 							</div>
-							<div class="col-xs-4">
+							<div class="col-4">
 								<label for="">E-mail</label>
-								<input name="email" type="email" class="form-control" placeholder="First name">
+								<input name="email" type="email" class="form-control">
 							</div>
-							<div class="col-xs-4">
+							<div class="col-4">
 								<label for="">Telefone</label>
-								<input name="phone" type="phone" class="form-control" placeholder="First name">
+								<input name="phone" type="phone" class="form-control">
 							</div>
-							<div class="col-xs-4">
+							<div class="col-4 mt-3">
 								<button type="submit" class="btn btn-primary">Enviar</button>
 							</div>
 						</div>
@@ -203,7 +203,7 @@
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3>About Us</h3>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore eos molestias quod sint ipsum possimus temporibus officia iste perspiciatis consectetur in fugiat repudiandae cum. Totam cupiditate nostrum ut neque ab?</p>
+						<p>A Abreu Mudanças é uma empresa familiar que nasceu com o objetivo de suprir às necessidades do mercado, oferecendo serviços de transporte e mudanças com qualidade e comprometimento. Desde 2018 já foram mais de 300 clientes atendidos e sem nenhuma ocorrência de avaria ou qualquer transtorno.</p>
 					</div>
 				</div>
 
